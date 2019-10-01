@@ -42,7 +42,7 @@ def libusb1_async_ctrl_transfer(device, bmRequestType, bRequest, wValue, wIndex,
 
   # Prototype of libusb_cancel_transfer is missing from pyusb
   usb.backend.libusb1._lib.libusb_cancel_transfer.argtypes = [ctypes.POINTER(usb.backend.libusb1._libusb_transfer)]
-  assert usb.backend.libusb1._lib.libusb_cancel_transfer(transfer_ptr) == 0
+#   assert usb.backend.libusb1._lib.libusb_cancel_transfer(transfer_ptr) == 0
 
 def libusb1_no_error_ctrl_transfer(device, bmRequestType, bRequest, wValue, wIndex, data_or_wLength, timeout):
   try:
@@ -132,6 +132,14 @@ class DeviceConfig:
     self.overwrite  = overwrite
     self.hole       = hole
     self.leak       = leak
+    
+  def __str__(self):
+    return "\tversion: \t{}\n".format(self.version) + \
+      "\tcpid: \t{}\n".format(hex(self.cpid)) + \
+      "\tlarge_leak: \t{}\n".format(self.large_leak) + \
+      "\toverwrite: \tlength: {}\n".format(len(self.overwrite)) + \
+      "\thole: \t{}\n".format(self.hole) + \
+      "\tleak: \t{}".format(self.leak)
 
 PAYLOAD_OFFSET_ARMV7 = 384
 PAYLOAD_SIZE_ARMV7   = 320
